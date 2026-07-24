@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>TopTransport AS</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet"/>
+    <style>
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        :root {
+            --navy:  #0D2B55;
+            --blue:  #1A5FA8;
+            --sky:   #D6E8F7;
+            --white: #FFFFFF;
+            --gray:  #F4F8FC;
+            --text:  #1a2533;
+            --muted: #5a6a7e;
+        }
+        html { scroll-behavior: smooth; }
+        body { font-family: 'Inter', sans-serif; color: var(--text); background: var(--white); }
+
+        /* NAV */
+        nav {
+            position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+            background: var(--navy);
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 0 48px; height: 64px;
+        }
+        .nav-logo { display: flex; align-items: center; gap: 12px; text-decoration: none; }
+        .nav-logo-icon {
+            width: 36px; height: 36px; background: var(--blue); border-radius: 8px;
+            display: flex; align-items: center; justify-content: center;
+        }
+        .nav-logo-icon svg { width: 22px; height: 22px; fill: white; }
+        .nav-logo-text {
+            font-family: 'Montserrat', sans-serif; font-weight: 800;
+            font-size: 1.1rem; color: var(--white); letter-spacing: 0.03em;
+        }
+        .nav-links { display: flex; gap: 32px; list-style: none; }
+        .nav-links a { color: rgba(255,255,255,0.75); text-decoration: none; font-size: 0.9rem; font-weight: 500; transition: color 0.2s; }
+        .nav-links a:hover { color: var(--white); }
+
+        /* HERO */
+        .hero {
+            min-height: 100vh;
+            background: linear-gradient(135deg, var(--navy) 0%, var(--blue) 100%);
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            text-align: center; padding: 100px 24px 64px; position: relative; overflow: hidden;
+        }
+        .hero::before {
+            content: ''; position: absolute; width: 700px; height: 700px; border-radius: 50%;
+            background: rgba(255,255,255,0.04); top: -200px; right: -200px;
+        }
+        .hero::after {
+            content: ''; position: absolute; width: 400px; height: 400px; border-radius: 50%;
+            background: rgba(255,255,255,0.04); bottom: -100px; left: -100px;
+        }
+        .hero-badge {
+            display: inline-block; background: rgba(255,255,255,0.12); color: var(--sky);
+            font-size: 0.78rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase;
+            padding: 6px 16px; border-radius: 20px; margin-bottom: 24px;
+        }
+        .hero h1 {
+            font-family: 'Montserrat', sans-serif; font-weight: 800;
+            font-size: clamp(2.4rem, 6vw, 4rem); color: var(--white);
+            line-height: 1.1; margin-bottom: 20px; max-width: 700px;
+        }
+        .hero h1 span { color: var(--sky); }
+        .hero p { font-size: 1.1rem; color: rgba(255,255,255,0.75); max-width: 500px; line-height: 1.7; margin-bottom: 40px; }
+        .hero-cta { display: flex; gap: 16px; flex-wrap: wrap; justify-content: center; }
+        .btn-primary {
+            background: var(--white); color: var(--navy); padding: 14px 32px; border-radius: 8px;
+            font-weight: 700; font-size: 0.95rem; text-decoration: none; transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,0,0,0.2); }
+        .btn-outline {
+            border: 2px solid rgba(255,255,255,0.4); color: var(--white); padding: 14px 32px;
+            border-radius: 8px; font-weight: 600; font-size: 0.95rem; text-decoration: none; transition: border-color 0.2s, background 0.2s;
+        }
+        .btn-outline:hover { border-color: white; background: rgba(255,255,255,0.08); }
+
+        /* IMAGE STRIP */
+        .hero-images { display: flex; gap: 16px; margin-top: 56px; position: relative; z-index: 1; }
+        .hero-img-wrap { display: flex; flex-direction: column; align-items: center; gap: 8px; }
+        .hero-img-card {
+            width: 220px; height: 150px; border-radius: 12px; overflow: hidden;
+            border: 2px solid rgba(255,255,255,0.15); background: rgba(255,255,255,0.08);
+            display: flex; align-items: center; justify-content: center;
+            color: rgba(255,255,255,0.5); font-size: 0.8rem; text-align: center; padding: 16px;
+        }
+        .hero-img-card img { width: 100%; height: 100%; object-fit: cover; display: block; }
+        .img-label { font-size: 0.72rem; color: rgba(255,255,255,0.45); }
+
+        /* SECTION BASE */
+        section { padding: 88px 24px; }
+        .section-inner { max-width: 1000px; margin: 0 auto; }
+        .section-eyebrow { font-size: 0.75rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--blue); margin-bottom: 10px; }
+        .section-title { font-family: 'Montserrat', sans-serif; font-weight: 800; font-size: clamp(1.6rem, 3.5vw, 2.2rem); color: var(--navy); margin-bottom: 16px; }
+        .section-sub { font-size: 1rem; color: var(--muted); max-width: 520px; line-height: 1.7; margin-bottom: 48px; }
+
+        /* SERVICES */
+        #tjenester { background: var(--gray); }
+        .services-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 24px; }
+        .service-card {
+            background: var(--white); border-radius: 12px; padding: 32px 28px;
+            border: 1px solid #e0ecf7; transition: box-shadow 0.2s, transform 0.2s;
+        }
+        .service-card:hover { box-shadow: 0 8px 32px rgba(26,95,168,0.12); transform: translateY(-3px); }
+        .service-icon {
+            width: 48px; height: 48px; background: var(--sky); border-radius: 10px;
+            display: flex; align-items: center; justify-content: center; margin-bottom: 18px;
+        }
+        .service-icon svg { width: 26px; height: 26px; stroke: var(--blue); fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+        .service-card h3 { font-family: 'Montserrat', sans-serif; font-size: 1rem; font-weight: 700; color: var(--navy); margin-bottom: 8px; }
+        .service-card p { font-size: 0.9rem; color: var(--muted); line-height: 1.6; }
+
+        /* REVIEWS */
+        #anmeldelser { background: var(--white); }
+        .mitt-anbud-badge {
+            display: inline-flex; align-items: center; gap: 8px; background: var(--sky); color: var(--blue);
+            font-size: 0.78rem; font-weight: 700; padding: 6px 14px; border-radius: 20px; margin-bottom: 36px;
+        }
+        .reviews-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px; }
+        .review-card { background: var(--gray); border-radius: 12px; padding: 28px 24px; border-left: 4px solid var(--blue); }
+        .stars { color: #f4b800; font-size: 1rem; margin-bottom: 12px; letter-spacing: 2px; }
+        .review-text { font-size: 0.92rem; color: var(--text); line-height: 1.65; margin-bottom: 16px; font-style: italic; }
+        .review-author { font-size: 0.82rem; font-weight: 700; color: var(--navy); }
+        .review-source { font-size: 0.75rem; color: var(--muted); margin-top: 2px; }
+
+        /* CONTACT */
+        #kontakt { background: var(--navy); }
+        #kontakt .section-eyebrow { color: var(--sky); }
+        #kontakt .section-title { color: var(--white); }
+        #kontakt .section-sub { color: rgba(255,255,255,0.65); }
+        .contact-cards { display: flex; gap: 24px; flex-wrap: wrap; }
+        .contact-card {
+            background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15);
+            border-radius: 12px; padding: 28px 32px; display: flex; align-items: center; gap: 18px;
+            min-width: 240px; text-decoration: none; transition: background 0.2s;
+        }
+        .contact-card:hover { background: rgba(255,255,255,0.14); }
+        .contact-icon {
+            width: 44px; height: 44px; background: var(--blue); border-radius: 10px;
+            display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+        }
+        .contact-icon svg { width: 22px; height: 22px; stroke: white; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+        .contact-label { font-size: 0.75rem; color: rgba(255,255,255,0.5); margin-bottom: 4px; }
+        .contact-value { font-size: 1rem; font-weight: 600; color: var(--white); }
+
+        /* FOOTER */
+        footer { background: #081a36; text-align: center; padding: 24px; font-size: 0.8rem; color: rgba(255,255,255,0.35); }
+
+        /* RESPONSIVE */
+        @media (max-width: 600px) {
+            nav { padding: 0 20px; }
+            .nav-links { display: none; }
+            .hero-images { display: none; }
+            .contact-cards { flex-direction: column; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+    <a href="#" class="nav-logo">
+        <div class="nav-logo-icon">
+            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path d="M1 3h15v13H1zM16 8h4l3 3v5h-7V8z"/>
+                <circle cx="5.5" cy="18.5" r="2.5"/>
+                <circle cx="18.5" cy="18.5" r="2.5"/>
+            </svg>
+        </div>
+        <span class="nav-logo-text">TopTransport AS</span>
+    </a>
+    <ul class="nav-links">
+        <li><a href="#tjenester">Tjenester</a></li>
+        <li><a href="#anmeldelser">Anmeldelser</a></li>
+        <li><a href="#kontakt">Kontakt</a></li>
+    </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+    <div class="hero-badge">Pålitelig transport i Norge</div>
+    <h1>Trygg og effektiv <span>transport</span> — hver gang</h1>
+    <p>TopTransport AS leverer profesjonell transporttjeneste med fokus på punktlighet, sikkerhet og god kundeservice.</p>
+    <div class="hero-cta">
+        <a href="#kontakt" class="btn-primary">Ta kontakt</a>
+        <a href="#tjenester" class="btn-outline">Våre tjenester</a>
+    </div>
+
+    <!-- Bildeplassholdrere – bytt ut kommentarene med ekte img-tagger når du har bildene klare -->
+    <div class="hero-images">
+        <div class="hero-img-wrap">
+            <div class="hero-img-card">
+                <img src="bil.png" alt="TopTransport bil">
+            </div>
+            <span class="img-label">Vår bil</span>
+        </div>
+        <div class="hero-img-wrap">
+            <div class="hero-img-card">
+                <img src="logo.png" alt="TopTransport logo">
+            </div>
+            <span class="img-label">Logo</span>
+        </div>
+        <div class="hero-img-wrap">
+            <div class="hero-img-card">
+                <img src="ansatt.png" alt="Mann i arbeid">
+            </div>
+            <span class="img-label">I arbeid</span>
+        </div>
+    </div>
+</section>
+
+<!-- SERVICES -->
+<section id="tjenester">
+    <div class="section-inner">
+        <div class="section-eyebrow">Hva vi tilbyr</div>
+        <h2 class="section-title">Tjenester</h2>
+        <p class="section-sub">Vi tilbyr et bredt spekter av transporttjenester tilpasset dine behov.</p>
+        <div class="services-grid">
+            <div class="service-card">
+                <div class="service-icon">
+                    <svg viewBox="0 0 24 24"><rect x="1" y="3" width="15" height="13"/><path d="M16 8h4l3 3v5h-7V8z"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
+                </div>
+                <h3>Varetransport</h3>
+                <p>Rask og sikker frakt av varer til rett tid og sted, stort som smått.</p>
+            </div>
+            <div class="service-card">
+                <div class="service-icon">
+                    <svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+                </div>
+                <h3>Flyttetransport</h3>
+                <p>Vi hjelper deg med trygg transport av møbler og eiendeler ved flytting.</p>
+            </div>
+            <div class="service-card">
+                <div class="service-icon">
+                    <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                </div>
+                <h3>Rask levering</h3>
+                <p>Tidskritiske leveranser håndteres med høy prioritet og presisjon.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- REVIEWS -->
+<section id="anmeldelser">
+    <div class="section-inner">
+        <div class="section-eyebrow">Hva kundene sier</div>
+        <h2 class="section-title">Anmeldelser</h2>
+        <div class="mitt-anbud-badge">⭐ Fra Mitt Anbud</div>
+
+        <!--
+          ════════════════════════════════════════════
+          SLIK LEGGER DU TIL DINE EGNE ANMELDELSER:
+          Kopier en .review-card og bytt ut:
+            - Stjerner (★ = fylt, ☆ = tom)
+            - Tekst i <p class="review-text">
+            - Navn i <div class="review-author">
+          ════════════════════════════════════════════
+        -->
+        <div class="reviews-grid">
+            <div class="review-card">
+                <div class="stars">★★★★★</div>
+                <p class="review-text">«Erstatt denne teksten med din første anmeldelse fra Mitt Anbud.»</p>
+                <div class="review-author">Kundenavn</div>
+                <div class="review-source">Mitt Anbud</div>
+            </div>
+            <div class="review-card">
+                <div class="stars">★★★★★</div>
+                <p class="review-text">«Erstatt denne teksten med din andre anmeldelse fra Mitt Anbud.»</p>
+                <div class="review-author">Kundenavn</div>
+                <div class="review-source">Mitt Anbud</div>
+            </div>
+            <div class="review-card">
+                <div class="stars">★★★★★</div>
+                <p class="review-text">«Erstatt denne teksten med din tredje anmeldelse fra Mitt Anbud.»</p>
+                <div class="review-author">Kundenavn</div>
+                <div class="review-source">Mitt Anbud</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- CONTACT -->
+<section id="kontakt">
+    <div class="section-inner">
+        <div class="section-eyebrow">Kom i kontakt</div>
+        <h2 class="section-title">Kontakt oss</h2>
+        <p class="section-sub">Vi svarer raskt — ikke nøl med å ta kontakt for pris eller spørsmål.</p>
+        <div class="contact-cards">
+            <a href="tel:+4794442095" class="contact-card">
+                <div class="contact-icon">
+                    <svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 1.29h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.88a16 16 0 0 0 6.06 6.06l.95-.95a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 21.73 16.92z"/></svg>
+                </div>
+                <div>
+                    <div class="contact-label">Telefon</div>
+                    <div class="contact-value">+47 944 42 095</div>
+                </div>
+            </a>
+            <a href="mailto:post@toptransport.no" class="contact-card">
+                <div class="contact-icon">
+                    <svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+                </div>
+                <div>
+                    <div class="contact-label">E-post</div>
+                    <div class="contact-value">post@toptransport.no</div>
+                </div>
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+    &copy; 2026 TopTransport AS &nbsp;·&nbsp; toptransport.no
+</footer>
+
+</body>
+</html>
